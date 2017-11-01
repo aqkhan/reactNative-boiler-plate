@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardSection, Button, Input } from "./common/";
 import axios from 'axios';
-import {Text} from "react-native";
+import {Text, View} from "react-native";
 
 class LoginForm extends Component {
 
@@ -11,7 +11,8 @@ class LoginForm extends Component {
         password: '',
         accessToken: '',
         loginStatus: false,
-        console: ''
+        console: '',
+        apiMessage: ''
     };
 
     // Login method
@@ -25,12 +26,14 @@ class LoginForm extends Component {
             }
         ).then(
             response => {
-                console.log('Data: ', response.data.message);
                 this.setState({
                     accessToken: response.data.token,
-                    loginStatus: response.data.message,
-                    console: response.data.console
+                    console: response.data.console,
+                    apiMessage: response.data.message
                 });
+                if (response.data.success === true) {
+                    this.setState({ loginStatus: true });
+                }
             }
         ).catch(
             error => {
@@ -61,9 +64,11 @@ class LoginForm extends Component {
                         onChangeText = { password => this.setState( { password } ) }
                     />
                 </CardSection>
-                <Text style={ styles.errorText }>
-                    { this.state.loginStatus }
-                </Text>
+                <View style={(this.state.loginStatus === false) ? {display: 'flex'} : {display: 'none'}}>
+                    <Text style={ styles.errorText }>
+                        { this.state.apiMessage }
+                    </Text>
+                </View>
                 <CardSection>
                     <Button onPress={this.logMeIn.bind(this)}>Login</Button>
                 </CardSection>

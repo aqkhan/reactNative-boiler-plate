@@ -12,7 +12,7 @@ const Input = ( { label, onChangeText, value, placeholder, autoCapitalize, secur
                 secureTextEntry = { secureTextEntry } // Password field
                 value = { value }
                 style = { styles.inputStyle }
-                autoCorrect={ false } // Don't validate the input
+                autoCorrect= { false } // Don't validate the input
             />
         </View>
     );
